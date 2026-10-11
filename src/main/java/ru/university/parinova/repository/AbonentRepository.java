@@ -1,4 +1,4 @@
 package ru.university.parinova.repository;
 
-public class abonentrepository {
+public class AbonentRepository {
 }
