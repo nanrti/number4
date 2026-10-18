@@ -27,6 +27,8 @@ public class Consol {
                     case "2" -> addAbonent();
                     case "3" -> editAbonent();
                     case "4" -> deleteAbonent();
+                    case "5" -> searchBySurname();
+                    case "6" -> searchByPhone();
                     case "0" -> running = false;
                     default -> System.out.println("Неверный пункт меню");
                 }
@@ -44,6 +46,8 @@ public class Consol {
         System.out.println("2. Добавить абонента");
         System.out.println("3. Редактировать абонента");
         System.out.println("4. Удалить абонента");
+        System.out.println("5. Поиск по фамилии");
+        System.out.println("6. Поиск по номеру телефона");
         System.out.println("0. Выход");
         System.out.print("Выбор: ");
     }
@@ -137,5 +141,15 @@ public class Consol {
                 phones
         );
         System.out.println("Данные обновлены");
+    }
+
+    private void searchBySurname() {
+        System.out.print("Введите фамилию: ");
+        printList(service.findBySurname(scanner.nextLine()));
+    }
+
+    private void searchByPhone() {
+        System.out.print("Введите номер телефона: ");
+        printList(service.findByPhone(scanner.nextLine()));
     }
 }
