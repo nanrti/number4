@@ -3,6 +3,7 @@ package ru.university.parinova.ui;
 import ru.university.parinova.model.Abonent;
 import ru.university.parinova.service.AbonentService;
 
+import java.util.Optional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -24,6 +25,8 @@ public class Consol {
                 switch (choice) {
                     case "1" -> showAll();
                     case "2" -> addAbonent();
+                    case "3" -> editAbonent();
+                    case "4" -> deleteAbonent();
                     case "0" -> running = false;
                     default -> System.out.println("Неверный пункт меню");
                 }
@@ -39,6 +42,8 @@ public class Consol {
         System.out.println("Телефонный справочник:");
         System.out.println("1. Показать всех абонентов");
         System.out.println("2. Добавить абонента");
+        System.out.println("3. Редактировать абонента");
+        System.out.println("4. Удалить абонента");
         System.out.println("0. Выход");
         System.out.print("Выбор: ");
     }
@@ -81,5 +86,56 @@ public class Consol {
             }
         }
         return phones;
+    }
+
+    private int readId() {
+        System.out.print("Введите id абонента: ");
+        try {
+            return Integer.parseInt(scanner.nextLine().trim());
+        } catch (NumberFormatException e) {
+            System.out.println("id должен быть числом");
+            return -1;
+        }
+    }
+
+    private void deleteAbonent() {
+        int id = readId();
+        if (id == -1) return;
+
+        if (service.deleteAbonent(id)) {
+            System.out.println("Абонент удалён");
+        } else {
+            System.out.println("Абонент с таким id не найден");
+        }
+    }
+
+    private void editAbonent() {
+        int id = readId();
+        if (id == -1) return;
+
+        Optional<Abonent> found = service.getById(id);
+        if (found.isEmpty()) {
+            System.out.println("Абонент с таким id не найден");
+            return;
+        }
+        System.out.println("Текущие данные: " + found.get());
+        System.out.println("(Пустая строка - оставить без изменений)");
+
+        System.out.print("Новая фамилия: ");
+        String surname = scanner.nextLine();
+        System.out.print("Новое имя: ");
+        String name = scanner.nextLine();
+        System.out.print("Новые номера (через пробел или запятую, до 3): ");
+        String phonesLine = scanner.nextLine();
+
+        List<String> phones = phonesLine.trim().isEmpty() ? null : parsePhones(phonesLine);
+
+        service.editAbonent(
+                id,
+                surname.trim().isEmpty() ? null : surname,
+                name.trim().isEmpty() ? null : name,
+                phones
+        );
+        System.out.println("Данные обновлены");
     }
 }
