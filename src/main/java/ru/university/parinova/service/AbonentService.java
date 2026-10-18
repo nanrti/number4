@@ -38,7 +38,9 @@ public class AbonentService {
         return repository.findById(id);
     }
 
-    public List<Abonent> getAll() {
-        return repository.findAll();
+    public List<Abonent> getAllSorted() {
+        List<Abonent> list = repository.findAll();
+        list.sort((a, b) -> a.getSurname().compareToIgnoreCase(b.getSurname()));
+        return list;
     }
 }
