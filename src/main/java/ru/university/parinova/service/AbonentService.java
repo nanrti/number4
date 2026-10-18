@@ -65,4 +65,31 @@ public class AbonentService {
         list.sort(COMPARATOR);
         return list;
     }
+
+    public List<Abonent> findBySurname(String surname) {
+        List<Abonent> result = new ArrayList<>();
+        String query = surname.trim().toLowerCase();
+        for (Abonent a : repository.findAll()) {
+            if (a.getSurname().toLowerCase().contains(query)) {
+                result.add(a);
+            }
+        }
+        result.sort(COMPARATOR);
+        return result;
+    }
+
+    public List<Abonent> findByPhone(String phone) {
+        List<Abonent> result = new ArrayList<>();
+        String query = phone.trim();
+        for (Abonent a : repository.findAll()) {
+            for (String p : a.getPhones()) {
+                if (p.contains(query)) {
+                    result.add(a);
+                    break;
+                }
+            }
+        }
+        result.sort(COMPARATOR);
+        return result;
+    }
 }
