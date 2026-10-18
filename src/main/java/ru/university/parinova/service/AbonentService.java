@@ -3,6 +3,7 @@ package ru.university.parinova.service;
 import ru.university.parinova.model.Abonent;
 import ru.university.parinova.repository.AbonentRepository;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -43,7 +44,20 @@ public class AbonentService {
         int result = a.getSurname().compareToIgnoreCase(b.getSurname());
         if (result != 0) return result;
 
-        return a.getName().compareToIgnoreCase(b.getName());
+        result = a.getName().compareToIgnoreCase(b.getName());
+        if (result != 0) return result;
+
+        List<String> p1 = new ArrayList<>(a.getPhones());
+        List<String> p2 = new ArrayList<>(b.getPhones());
+        p1.sort(String::compareTo);
+        p2.sort(String::compareTo);
+
+        int size = Math.min(p1.size(), p2.size());
+        for (int i = 0; i < size; i++) {
+            result = p1.get(i).compareTo(p2.get(i));
+            if (result != 0) return result;
+        }
+        return Integer.compare(p1.size(), p2.size());
     };
 
     public List<Abonent> getAllSorted() {
