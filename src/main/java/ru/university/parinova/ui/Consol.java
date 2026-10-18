@@ -3,6 +3,7 @@ package ru.university.parinova.ui;
 import ru.university.parinova.model.Abonent;
 import ru.university.parinova.service.AbonentService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -22,6 +23,7 @@ public class Consol {
             try {
                 switch (choice) {
                     case "1" -> showAll();
+                    case "2" -> addAbonent();
                     case "0" -> running = false;
                     default -> System.out.println("Неверный пункт меню");
                 }
@@ -36,6 +38,7 @@ public class Consol {
         System.out.println();
         System.out.println("Телефонный справочник:");
         System.out.println("1. Показать всех абонентов");
+        System.out.println("2. Добавить абонента");
         System.out.println("0. Выход");
         System.out.print("Выбор: ");
     }
@@ -52,5 +55,31 @@ public class Consol {
         for (Abonent a : list) {
             System.out.println(a);
         }
+    }
+
+    private void addAbonent() {
+        System.out.print("Фамилия: ");
+        String surname = scanner.nextLine();
+        System.out.print("Имя: ");
+        String name = scanner.nextLine();
+        List<String> phones = readPhones();
+
+        Abonent a = service.addAbonent(surname, name, phones);
+        System.out.println("Добавлен: " + a);
+    }
+
+    private List<String> readPhones() {
+        System.out.print("Номера телефонов (через пробел или запятую, до 3): ");
+        return parsePhones(scanner.nextLine());
+    }
+
+    private List<String> parsePhones(String line) {
+        List<String> phones = new ArrayList<>();
+        for (String part : line.split("[,\\s]+")) {
+            if (!part.isEmpty()) {
+                phones.add(part);
+            }
+        }
+        return phones;
     }
 }
