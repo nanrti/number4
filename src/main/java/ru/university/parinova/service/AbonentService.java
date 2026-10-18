@@ -3,6 +3,7 @@ package ru.university.parinova.service;
 import ru.university.parinova.model.Abonent;
 import ru.university.parinova.repository.AbonentRepository;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,9 +39,16 @@ public class AbonentService {
         return repository.findById(id);
     }
 
+    private static final Comparator<Abonent> COMPARATOR = (a, b) -> {
+        int result = a.getSurname().compareToIgnoreCase(b.getSurname());
+        if (result != 0) return result;
+
+        return a.getName().compareToIgnoreCase(b.getName());
+    };
+
     public List<Abonent> getAllSorted() {
         List<Abonent> list = repository.findAll();
-        list.sort((a, b) -> a.getSurname().compareToIgnoreCase(b.getSurname()));
+        list.sort(COMPARATOR);
         return list;
     }
 }
