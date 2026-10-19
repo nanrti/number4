@@ -120,6 +120,6 @@ class AbonentRepositoryTest {
 
         Abonent second = repository.add(newAbonent("Петров"));
 
-        assertEquals(2, second.getId()); //для комита
+        assertEquals(2, second.getId()); //для комитаа
     }
 }
