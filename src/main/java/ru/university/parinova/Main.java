@@ -2,7 +2,7 @@ package ru.university.parinova;
 
 import ru.university.parinova.repository.AbonentRepository;
 import ru.university.parinova.service.AbonentService;
-import ru.university.parinova.ui.Consol;
+import ru.university.parinova.Controller.Consol;
 
 public class Main {
     public static void main(String[] args) {

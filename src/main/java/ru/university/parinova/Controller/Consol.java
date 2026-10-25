@@ -1,9 +1,9 @@
-package ru.university.parinova.ui;
+package ru.university.parinova.Controller;
 
+import ru.university.parinova.exception.BusinessException;
 import ru.university.parinova.model.Abonent;
 import ru.university.parinova.service.AbonentService;
 
-import java.util.Optional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -32,7 +32,7 @@ public class Consol {
                     case "0" -> running = false;
                     default -> System.out.println("Неверный пункт меню");
                 }
-            } catch (IllegalArgumentException e) {
+            } catch (BusinessException e) {
                 System.out.println("Ошибка: " + e.getMessage());
             }
         }
@@ -106,23 +106,16 @@ public class Consol {
         int id = readId();
         if (id == -1) return;
 
-        if (service.deleteAbonent(id)) {
-            System.out.println("Абонент удалён");
-        } else {
-            System.out.println("Абонент с таким id не найден");
-        }
+        service.deleteAbonent(id);
+        System.out.println("Абонент удалён");
     }
 
     private void editAbonent() {
         int id = readId();
         if (id == -1) return;
 
-        Optional<Abonent> found = service.getById(id);
-        if (found.isEmpty()) {
-            System.out.println("Абонент с таким id не найден");
-            return;
-        }
-        System.out.println("Текущие данные: " + found.get());
+        Abonent found = service.getById(id);
+        System.out.println("Текущие данные: " + found);
         System.out.println("(Пустая строка - оставить без изменений)");
 
         System.out.print("Новая фамилия: ");
@@ -142,6 +135,8 @@ public class Consol {
         );
         System.out.println("Данные обновлены");
     }
+
+
 
     private void searchBySurname() {
         System.out.print("Введите фамилию: ");
