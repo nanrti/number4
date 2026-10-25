@@ -1,5 +1,5 @@
 package ru.university.parinova.model;
-
+import ru.university.parinova.exception.BusinessException;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -39,55 +39,55 @@ class AbonentTest {
 
     @Test
     void rejectsEmptySurname() {
-        assertThrows(IllegalArgumentException.class,
+        assertThrows(BusinessException.class,
                 () -> new Abonent("", "Иван", List.of("111")));
     }
 
     @Test
     void rejectsBlankSurname() {
-        assertThrows(IllegalArgumentException.class,
+        assertThrows(BusinessException.class,
                 () -> new Abonent("   ", "Иван", List.of("111")));
     }
 
     @Test
     void rejectsNullSurname() {
-        assertThrows(IllegalArgumentException.class,
+        assertThrows(BusinessException.class,
                 () -> new Abonent(null, "Иван", List.of("111")));
     }
 
     @Test
     void rejectsEmptyName() {
-        assertThrows(IllegalArgumentException.class,
+        assertThrows(BusinessException.class,
                 () -> new Abonent("Иванов", "", List.of("111")));
     }
 
     @Test
     void rejectsNullName() {
-        assertThrows(IllegalArgumentException.class,
+        assertThrows(BusinessException.class,
                 () -> new Abonent("Иванов", null, List.of("111")));
     }
 
     @Test
     void rejectsNullPhones() {
-        assertThrows(IllegalArgumentException.class,
+        assertThrows(BusinessException.class,
                 () -> new Abonent("Иванов", "Иван", null));
     }
 
     @Test
     void rejectsEmptyPhonesList() {
-        assertThrows(IllegalArgumentException.class,
+        assertThrows(BusinessException.class,
                 () -> new Abonent("Иванов", "Иван", List.of()));
     }
 
     @Test
     void rejectsMoreThanThreePhones() {
-        assertThrows(IllegalArgumentException.class,
+        assertThrows(BusinessException.class,
                 () -> new Abonent("Иванов", "Иван", List.of("1", "2", "3", "4")));
     }
 
     @Test
     void rejectsBlankPhone() {
-        assertThrows(IllegalArgumentException.class,
+        assertThrows(BusinessException.class,
                 () -> new Abonent("Иванов", "Иван", List.of("111", "  ")));
     }
 
@@ -104,7 +104,7 @@ class AbonentTest {
     void failedSetSurnameKeepsOldValue() {
         Abonent a = new Abonent("Иванов", "Иван", List.of("111"));
 
-        assertThrows(IllegalArgumentException.class, () -> a.setSurname(""));
+        assertThrows(BusinessException.class, () -> a.setSurname(""));
 
         assertEquals("Иванов", a.getSurname());
     }
