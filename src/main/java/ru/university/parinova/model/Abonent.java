@@ -1,5 +1,8 @@
 package ru.university.parinova.model;
 
+import ru.university.parinova.exception.AbonentPhonesException;
+import ru.university.parinova.exception.AbonentNameException;
+import ru.university.parinova.exception.AbonentSurnameException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +23,6 @@ public class Abonent {
     public int getId() {
         return id;
     }
-
     public void setId(int id) {
         this.id = id;
     }
@@ -31,7 +33,7 @@ public class Abonent {
 
     public void setSurname(String surname) {
         if (surname == null || surname.trim().isEmpty()) {
-            throw new IllegalArgumentException("Фамилия не может быть пустой");
+            throw new AbonentSurnameException();
         }
         this.surname = surname.trim();
     }
@@ -42,7 +44,7 @@ public class Abonent {
 
     public void setName(String name) {
         if (name == null || name.trim().isEmpty()) {
-            throw new IllegalArgumentException("Имя не может быть пустым");
+            throw new AbonentNameException();
         }
         this.name = name.trim();
     }
@@ -53,15 +55,15 @@ public class Abonent {
 
     public void setPhones(List<String> phones) {
         if (phones == null || phones.isEmpty()) {
-            throw new IllegalArgumentException("Нужен хотя бы один номер телефона");
+            throw new AbonentPhonesException("Нужен хотя бы один номер телефона");
         }
         if (phones.size() > MAX_PHONES) {
-            throw new IllegalArgumentException("Не более " + MAX_PHONES + " номеров телефона");
+            throw new AbonentPhonesException("Не более " + MAX_PHONES + " номеров телефона");
         }
         List<String> cleaned = new ArrayList<>();
         for (String phone : phones) {
             if (phone == null || phone.trim().isEmpty()) {
-                throw new IllegalArgumentException("Номер телефона не может быть пустым");
+                throw new AbonentPhonesException("Номер телефона не может быть пустым");
             }
             cleaned.add(phone.trim());
         }
